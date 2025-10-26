@@ -1,0 +1,519 @@
+<div class="dashboard-container">
+      <nav class="dashboard-nav">
+        <div class="nav-brand">
+            <i class="fas fa-chart-line"></i>
+            <span>Mi Dashboard</span>
+        </div>
+        <div class="nav-menu">
+            <a href="#" class="nav-link" [class.active]="activeSection === 'inicio'" (click)="setActiveSection('inicio', $event)">
+                <i class="fas fa-home"></i>
+                Inicio
+            </a>
+            <a href="#" class="nav-link" [class.active]="activeSection === 'analisis'" (click)="setActiveSection('analisis', $event)">
+                <i class="fas fa-chart-pie"></i>
+                Análisis
+            </a>
+            <a href="#" class="nav-link" [class.active]="activeSection === 'proyectos'" (click)="setActiveSection('proyectos', $event)">
+                <i class="fas fa-tasks"></i>
+                Proyectos
+            </a>
+            <a href="#" class="nav-link" [class.active]="activeSection === 'configuracion'" (click)="setActiveSection('configuracion', $event)">
+                <i class="fas fa-cog"></i>
+                Configuración
+            </a>
+        </div>
+        <div class="nav-user">
+            <div class="user-profile">
+                <img [src]="'https://ui-avatars.com/api/?name=' + userEmail" alt="Profile" class="avatar">
+                <div class="user-info">
+                    <span class="user-name">{{ userEmail }}</span>
+                    <span class="user-role">Administrador</span>
+                </div>
+            </div>
+            <button class="logout-btn" (click)="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Cerrar sesión</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="dashboard-content">
+        <!-- Sección de Inicio -->
+        <div *ngIf="activeSection === 'inicio'" class="welcome-section">
+            <div class="welcome-header">
+                <h1>¡Bienvenido de nuevo!</h1>
+                <p class="subtitle">Aquí está el resumen de tu actividad</p>
+            </div>
+            <div class="quick-actions">
+                <button class="action-btn primary" (click)="toggleCard('newProject')">
+                    <i class="fas fa-plus"></i>
+                    Nuevo Proyecto
+                </button>
+                <button class="action-btn info" (click)="toggleCard('analysis')">
+                    <i class="fas fa-chart-line"></i>
+                    Análisis
+                </button>
+                <button class="action-btn success" (click)="toggleCard('reports')">
+                    <i class="fas fa-file-alt"></i>
+                    Ver Reportes
+                </button>
+            </div>
+
+            <div class="action-cards">
+                <!-- Nuevo Proyecto Card -->
+                <div class="action-card" [class.expanded]="expandedCard === 'newProject'">
+                    <div class="card-header">
+                        <h3><i class="fas fa-plus"></i> Nuevo Proyecto</h3>
+                        <button class="close-btn" (click)="toggleCard('')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <form class="project-form">
+                            <div class="form-group">
+                                <label>Nombre del Proyecto</label>
+                                <input type="text" placeholder="Ingrese el nombre del proyecto">
+                            </div>
+                            <div class="form-group">
+                                <label>Descripción</label>
+                                <textarea placeholder="Describa el proyecto"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Fecha de Inicio</label>
+                                <input type="date">
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                Crear Proyecto
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Análisis Card -->
+                <div class="action-card" [class.expanded]="expandedCard === 'analysis'">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Análisis</h3>
+                        <button class="close-btn" (click)="toggleCard('')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="analysis-grid">
+                            <div class="analysis-item">
+                                <i class="fas fa-users"></i>
+                                <h4>Usuarios Activos</h4>
+                                <p class="number">1,234</p>
+                                <span class="trend positive">+12.5%</span>
+                            </div>
+                            <div class="analysis-item">
+                                <i class="fas fa-tasks"></i>
+                                <h4>Tareas Completadas</h4>
+                                <p class="number">856</p>
+                                <span class="trend positive">+8.3%</span>
+                            </div>
+                            <div class="analysis-item">
+                                <i class="fas fa-clock"></i>
+                                <h4>Tiempo Promedio</h4>
+                                <p class="number">2.5h</p>
+                                <span class="trend negative">-4.2%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reportes Card -->
+                <div class="action-card" [class.expanded]="expandedCard === 'reports'">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> Reportes</h3>
+                        <button class="close-btn" (click)="toggleCard('')">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="reports-list">
+                            <div class="report-item">
+                                <i class="fas fa-file-pdf"></i>
+                                <div class="report-info">
+                                    <h4>Reporte Mensual</h4>
+                                    <p>Octubre 2025</p>
+                                </div>
+                                <button class="download-btn">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                            <div class="report-item">
+                                <i class="fas fa-file-excel"></i>
+                                <div class="report-info">
+                                    <h4>Análisis de Rendimiento</h4>
+                                    <p>Q3 2025</p>
+                                </div>
+                                <button class="download-btn">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                            <div class="report-item">
+                                <i class="fas fa-file-chart-pie"></i>
+                                <div class="report-info">
+                                    <h4>Métricas de Equipo</h4>
+                                    <p>Semana 43</p>
+                                </div>
+                                <button class="download-btn">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Análisis -->
+        <div *ngIf="activeSection === 'analisis'" class="section-container">
+            <div class="section-header">
+                <h1>Panel de Análisis</h1>
+                <p class="subtitle">Visualización detallada de métricas y estadísticas</p>
+            </div>
+            <div class="analysis-dashboard">
+                <div class="analysis-metrics">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-users"></i>
+                            <h3>Usuarios Totales</h3>
+                        </div>
+                        <div class="metric-content">
+                            <p class="metric-number">2,543</p>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>15.3%</span>
+                            </div>
+                        </div>
+                        <div class="metric-footer">vs mes anterior</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-project-diagram"></i>
+                            <h3>Proyectos Activos</h3>
+                        </div>
+                        <div class="metric-content">
+                            <p class="metric-number">47</p>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>8.7%</span>
+                            </div>
+                        </div>
+                        <div class="metric-footer">vs mes anterior</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <i class="fas fa-tasks"></i>
+                            <h3>Tareas Completadas</h3>
+                        </div>
+                        <div class="metric-content">
+                            <p class="metric-number">892</p>
+                            <div class="metric-trend positive">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>12.4%</span>
+                            </div>
+                        </div>
+                        <div class="metric-footer">vs mes anterior</div>
+                    </div>
+                </div>
+                <div class="analysis-charts">
+                    <div class="chart-container">
+                        <h3>Tendencias de Uso</h3>
+                        <div class="chart-content">
+                            <!-- Aquí iría un gráfico real -->
+                            <div class="placeholder-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Proyectos -->
+        <div *ngIf="activeSection === 'proyectos'" class="section-container">
+            <div class="section-header">
+                <h1>Gestión de Proyectos</h1>
+                <p class="subtitle">Administra y supervisa tus proyectos</p>
+            </div>
+            <div class="projects-dashboard">
+                <div class="projects-header">
+                    <button class="new-project-btn">
+                        <i class="fas fa-plus"></i>
+                        Nuevo Proyecto
+                    </button>
+                    <div class="projects-filter">
+                        <select class="filter-select">
+                            <option value="all">Todos los Proyectos</option>
+                            <option value="active">Activos</option>
+                            <option value="completed">Completados</option>
+                            <option value="archived">Archivados</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <div class="project-status active"></div>
+                        <h3>Rediseño Dashboard</h3>
+                        <p class="project-description">Actualización completa de la interfaz de usuario del dashboard principal</p>
+                        <div class="project-meta">
+                            <span class="project-date"><i class="fas fa-calendar"></i> Oct 26, 2025</span>
+                            <span class="project-members"><i class="fas fa-users"></i> 5 miembros</span>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 75%"></div>
+                            </div>
+                            <span>75%</span>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <div class="project-status pending"></div>
+                        <h3>Integración API</h3>
+                        <p class="project-description">Implementación de nuevos endpoints y documentación</p>
+                        <div class="project-meta">
+                            <span class="project-date"><i class="fas fa-calendar"></i> Oct 30, 2025</span>
+                            <span class="project-members"><i class="fas fa-users"></i> 3 miembros</span>
+                        </div>
+                        <div class="project-progress">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 45%"></div>
+                            </div>
+                            <span>45%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Configuración -->
+        <div *ngIf="activeSection === 'configuracion'" class="section-container">
+            <div class="section-header">
+                <h1>Configuración</h1>
+                <p class="subtitle">Personaliza tu experiencia y ajusta las preferencias</p>
+            </div>
+            <div class="settings-dashboard">
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <div class="settings-header">
+                            <i class="fas fa-user-circle"></i>
+                            <h3>Perfil</h3>
+                        </div>
+                        <div class="settings-content">
+                            <form class="settings-form">
+                                <div class="form-group">
+                                    <label>Nombre</label>
+                                    <input type="text" [value]="userEmail" class="settings-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" [value]="userEmail" class="settings-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>Rol</label>
+                                    <input type="text" value="Administrador" class="settings-input" readonly>
+                                </div>
+                                <button type="submit" class="settings-save-btn">
+                                    Guardar Cambios
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="settings-card">
+                        <div class="settings-header">
+                            <i class="fas fa-bell"></i>
+                            <h3>Notificaciones</h3>
+                        </div>
+                        <div class="settings-content">
+                            <div class="settings-toggle-group">
+                                <div class="toggle-item">
+                                    <span>Notificaciones por email</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-item">
+                                    <span>Notificaciones push</span>
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-item">
+                                    <span>Resumen semanal</span>
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="main-stats">
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Usuarios Activos</h3>
+                            <p class="stat-number">150</p>
+                            <p class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                +12% este mes
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card success">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Crecimiento</h3>
+                            <p class="stat-number">85%</p>
+                            <p class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i>
+                                +5% vs anterior
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card warning">
+                        <div class="stat-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Tareas Pendientes</h3>
+                            <p class="stat-number">24</p>
+                            <p class="stat-change neutral">
+                                <i class="fas fa-minus"></i>
+                                Sin cambios
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card info">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Tiempo Promedio</h3>
+                            <p class="stat-number">45h</p>
+                            <p class="stat-change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                -3% esta semana
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <h2>Rendimiento Mensual</h2>
+                        <div class="chart-actions">
+                            <button class="chart-btn active">Día</button>
+                            <button class="chart-btn">Semana</button>
+                            <button class="chart-btn">Mes</button>
+                            <button class="chart-btn">Año</button>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        <!-- Aquí iría el gráfico real -->
+                        <div class="chart-bars">
+                            <div class="chart-bar" style="height: 60%"></div>
+                            <div class="chart-bar" style="height: 80%"></div>
+                            <div class="chart-bar" style="height: 40%"></div>
+                            <div class="chart-bar" style="height: 70%"></div>
+                            <div class="chart-bar" style="height: 90%"></div>
+                            <div class="chart-bar" style="height: 50%"></div>
+                            <div class="chart-bar active" style="height: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-content">
+                <div class="recent-activity">
+                    <div class="section-header">
+                        <h2>Actividad Reciente</h2>
+                        <button class="view-all">Ver todo</button>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p class="activity-title">Proyecto completado</p>
+                                <p class="activity-desc">Dashboard UI finalizado</p>
+                                <p class="activity-time">Hace 5 minutos</p>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon primary">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p class="activity-title">Nuevo miembro</p>
+                                <p class="activity-desc">María se unió al equipo</p>
+                                <p class="activity-time">Hace 2 horas</p>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p class="activity-title">Alerta de sistema</p>
+                                <p class="activity-desc">Actualización pendiente</p>
+                                <p class="activity-time">Hace 4 horas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-section">
+                    <div class="section-header">
+                        <h2>Equipo</h2>
+                        <button class="add-member">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="team-list">
+                        <div class="team-member online">
+                            <img src="https://ui-avatars.com/api/?name=John+Doe" alt="John Doe" class="member-avatar">
+                            <div class="member-info">
+                                <p class="member-name">John Doe</p>
+                                <p class="member-role">Desarrollador</p>
+                            </div>
+                            <span class="status-badge"></span>
+                        </div>
+                        <div class="team-member offline">
+                            <img src="https://ui-avatars.com/api/?name=Jane+Smith" alt="Jane Smith" class="member-avatar">
+                            <div class="member-info">
+                                <p class="member-name">Jane Smith</p>
+                                <p class="member-role">Diseñadora</p>
+                            </div>
+                            <span class="status-badge"></span>
+                        </div>
+                        <div class="team-member online">
+                            <img src="https://ui-avatars.com/api/?name=Mike+Johnson" alt="Mike Johnson" class="member-avatar">
+                            <div class="member-info">
+                                <p class="member-name">Mike Johnson</p>
+                                <p class="member-role">Product Manager</p>
+                            </div>
+                            <span class="status-badge"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
